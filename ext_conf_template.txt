@@ -1,0 +1,8 @@
+# cat=features/enable/1; type=string; label=LLL:EXT:mailjet/Resources/Private/locallang_db.xlf:extConf.smtpUsername.description
+smtpUsername =
+
+# cat=features/enable/2; type=string; label=LLL:EXT:mailjet/Resources/Private/locallang_db.xlf:extConf.smtpPassword.description
+smtpPassword =
+
+# cat=features/enable/3; type=string; label=LLL:EXT:mailjet/Resources/Private/locallang_db.xlf:extConf.smtpServer.description
+smtpServer =
