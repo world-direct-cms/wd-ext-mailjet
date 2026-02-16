@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2025-02-16T08:00:00Z" product-name="mailjet">
+		<header />
+		<body>
+			<!-- Extension configuration -->
+			<trans-unit id="extConf.smtpUsername.description">
+				<source>
+					SMTP Username: The username for authenticating with the Mailjet SMTP server (API key from Mailjet)
+				</source>
+			</trans-unit>
+			<trans-unit id="extConf.smtpPassword.description">
+				<source>
+					SMTP Password: The password/API key for authenticating with the Mailjet SMTP server (Secret from Mailjet)
+				</source>
+			</trans-unit>
+			<trans-unit id="extConf.smtpServer.description">
+				<source>
+					SMTP Server: The Mailjet SMTP server address (e.g., in-v3.mailjet.com:465)
+				</source>
+			</trans-unit>
+			<!-- Database table: tx_mailjet_domain_model_sentemail -->
+			<trans-unit id="tx_mailjet_domain_model_sentemail">
+				<source>
+					Sent Email Log
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.sent_at">
+				<source>
+					Sent at
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.mailjet_enabled">
+				<source>
+					Mailjet Enabled
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.calling_class">
+				<source>
+					Calling Class
+				</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

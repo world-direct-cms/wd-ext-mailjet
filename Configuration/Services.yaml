@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  WorldDirect\Mailjet\:
+    resource: "../Classes/*"
+
+  # Make repository public for dependency injection
+  WorldDirect\Mailjet\Domain\Repository\SentEmailRepository:
+    public: true
+
+  # Event Listeners
+  WorldDirect\Mailjet\EventListener\EmailSentEventListener:
+    tags:
+      - name: event.listener
+        identifier: "mailjet/email-sent"
+        event: TYPO3\CMS\Core\Mail\Event\AfterMailerSentMessageEvent
