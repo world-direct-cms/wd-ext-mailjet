@@ -5,7 +5,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Mailjet Extension',
+    'title' => 'Mailjet E-Mail Versand',
     'description' => 'Diese Erweiterung konfiguriert das System zur Verwendung mit Mailjet. Ausserdem wird eine Datenbank Tabelle erstellt, welche alle versendeten E-Mails speichert. Jedoch ohne Datenschutz relevante Informationen.',
     'category' => 'plugin',
     'author' => 'Klaus Hörmann-Engl',
