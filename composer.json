@@ -1,0 +1,110 @@
+{
+  "name": "worlddirect/mailjet",
+  "description": "Configures TYPO3 to use Mailjet to send e-mails. Also create a table which saves all sent e-mails.",
+  "license": "GPL-2.0-only",
+  "type": "typo3-cms-extension",
+  "keywords": [
+    "typo3",
+    "email",
+    "mailjet"
+  ],
+  "authors": [
+    {
+      "name": "Klaus Hörmann-Engl",
+      "email": "kho@world-direct.at",
+      "homepage": "https://www.world-direct.at",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/world-direct/mailjet/issues/",
+    "source": "https://github.com/world-direct/mailjet/"
+  },
+  "require": {
+    "php": "^8.3 || ^8.4",
+    "typo3/cms-core": "^11 || ^12 || ^13 || ^14"
+  },
+  "require-dev": {
+    "captainhook/captainhook": "^5.16",
+    "ergebnis/composer-normalize": "^2.30",
+    "friendsofphp/php-cs-fixer": "^3.16",
+    "michielroos/typo3scan": "^1.7",
+    "phpmd/phpmd": "^2.9",
+    "seld/jsonlint": "^1.8",
+    "vimeo/psalm": "dev-master"
+  },
+  "replace": {
+    "typo3-ter/mailjet": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "WorldDirect\\Mailjet\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WorldDirect\\Mailjet\\Tests\\": "Tests"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true,
+      "ergebnis/composer-normalize": true
+    },
+    "bin-dir": ".Build/bin",
+    "sort-packages": true,
+    "vendor-dir": ".Build/vendor"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "extension-key": "mailjet",
+      "web-dir": ".Build/Web"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      ".Build/bin/captainhook install --bootstrap .Build/vendor/autoload.php -f -s"
+    ],
+    "git:pre-commit": [
+      "@lint",
+      "@php:psalm",
+      "@php:md",
+      "@php:scan"
+    ],
+    "json:lint": [
+      "find . ! -path '*.Build/*' -name '*.json' | xargs .Build/bin/jsonlint"
+    ],
+    "lint": [
+      "@php:lint",
+      "@json:lint",
+      "@yaml:lint"
+    ],
+    "php:lint": [
+      "find *.php Classes -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l"
+    ],
+    "php:md": [
+      ".Build/bin/phpmd ./Classes/ ansi .phpmd.xml"
+    ],
+    "php:scan": [
+      "php .Build/bin/typo3scan.phar scan ./Classes/"
+    ],
+    "php:psalm": [
+      ".Build/bin/psalm"
+    ],
+    "yaml:lint": [
+      "find . ! -path '*.Build/*' -name '*.yaml' | xargs .Build/bin/yaml-lint"
+    ]
+  },
+  "scripts-descriptions": {
+    "git:pre-commit": "Execute these script before a Git 'pre-commit'",
+    "json:lint": "Lint the JSON files",
+    "lint": "Execute all lint commands",
+    "php:lint": "Lint PHP files",
+    "php:md": "Execute PHP Mess Detector",
+    "php:scan": "Use typo3scan to scan code for deprecations or changed code",
+    "php:psalm": "Run the PHP Static Code Analysis",
+    "yaml:lint": "Lint YAML files"
+  }
+}
