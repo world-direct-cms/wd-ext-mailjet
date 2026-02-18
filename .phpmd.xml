@@ -26,7 +26,9 @@
 					\TYPO3\CMS\Saltedpasswords\Salt\SaltFactory,
 					\TYPO3\CMS\Core\Core\Environment,
 					Environment,
-					\WorldDirect\Mailjet\Service\MailConfigurationService
+					\WorldDirect\Mailjet\Service\MailConfigurationService,
+					\WorldDirect\Mailjet\Transport\LoggingTransportDecorator,
+					\WorldDirect\Mailjet\EventListener\EmailAttemptEventListener
 				</value>
 			</property>
 		</properties>

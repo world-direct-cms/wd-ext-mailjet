@@ -52,6 +52,11 @@
       "typo3/class-alias-loader": true,
       "ergebnis/composer-normalize": true
     },
+    "audit": {
+      "ignore": [
+        "PKSA-y2cr-5h3j-g3ys"
+      ]
+    },
     "bin-dir": ".Build/bin",
     "sort-packages": true,
     "vendor-dir": ".Build/vendor"

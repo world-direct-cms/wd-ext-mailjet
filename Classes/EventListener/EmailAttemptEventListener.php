@@ -160,7 +160,7 @@ final class EmailAttemptEventListener
             }
 
             // Log all remaining pending attempts as failed
-            foreach (self::$pendingAttempts as $attemptId => $attempt) {
+            foreach (self::$pendingAttempts as $attempt) {
                 $this->logFailedEmail(
                     $attempt['mailjet_enabled'],
                     $attempt['subject'],
