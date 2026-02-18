@@ -235,8 +235,8 @@ Uncheck **Enable Mailjet** in Extension Configuration. This:
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/world-direct/mailjet/issues)
-- **Source Code**: [GitHub Repository](https://github.com/world-direct/mailjet)
+- **Issues**: [GitHub Issues](https://github.com/world-direct-cms/wd-ext-mailjet/issues)
+- **Source Code**: [GitHub Repository](https://github.com/world-direct-cms/wd-ext-mailjet)
 - **Author**: Klaus Hörmann-Engl <kho@world-direct.at>
 - **Company**: [World-Direct eBusiness solutions GmbH](https://www.world-direct.at)
 
@@ -246,7 +246,7 @@ This extension is licensed under GPL-2.0-only. See [LICENSE](LICENSE) file for d
 
 ## Credits
 
-Developed and maintained by [World-Direct eBusiness solutions GmbH](https://www.world-direct.at).
+Developed and maintained by **Klaus Hörmann-Engl** at [World-Direct eBusiness solutions GmbH](https://www.world-direct.at).
 
 ---
 
