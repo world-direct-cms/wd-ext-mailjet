@@ -29,7 +29,7 @@ class SentEmailRepository extends Repository
         string $subject = '',
         string $deliveryStatus = 'sent'
     ): void {
-        $this->createEmailAttemptRecord($mailjetEnabled, $subject, $deliveryStatus, null);
+        $this->createEmailAttemptRecord($mailjetEnabled, $subject, $deliveryStatus, null, '');
     }
 
     /**
@@ -39,12 +39,14 @@ class SentEmailRepository extends Repository
         bool $mailjetEnabled,
         string $subject = '',
         string $deliveryStatus = 'sent',
-        ?string $exceptionMessage = null
+        ?string $exceptionMessage = null,
+        string $senderAddress = ''
     ): void {
         $sentEmail = new SentEmail();
         $sentEmail->setPid(0); // Store at root level
         $sentEmail->setSentAt(time());
         $sentEmail->setMailjetEnabled($mailjetEnabled);
+        $sentEmail->setSenderAddress($senderAddress);
         $sentEmail->setSubject($subject);
         $sentEmail->setDeliveryStatus($deliveryStatus);
         $sentEmail->setExceptionMessage($exceptionMessage);

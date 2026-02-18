@@ -13,6 +13,7 @@ class SentEmail extends AbstractEntity
 {
     protected int $sentAt = 0;
     protected bool $mailjetEnabled = false;
+    protected string $senderAddress = '';
     protected string $subject = '';
     protected string $deliveryStatus = '';
     protected ?string $exceptionMessage = null;
@@ -35,6 +36,16 @@ class SentEmail extends AbstractEntity
     public function setMailjetEnabled(bool $mailjetEnabled): void
     {
         $this->mailjetEnabled = $mailjetEnabled;
+    }
+
+    public function getSenderAddress(): string
+    {
+        return $this->senderAddress;
+    }
+
+    public function setSenderAddress(string $senderAddress): void
+    {
+        $this->senderAddress = $senderAddress;
     }
 
     public function getSubject(): string

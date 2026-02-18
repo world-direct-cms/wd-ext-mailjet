@@ -35,6 +35,11 @@
 					Mailjet Enabled
 				</source>
 			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.sender_address">
+				<source>
+					Sender Address
+				</source>
+			</trans-unit>
 			<trans-unit id="tx_mailjet_domain_model_sentemail.subject">
 				<source>
 					Subject
