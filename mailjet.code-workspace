@@ -1,0 +1,54 @@
+{
+	"folders": [
+        {
+            "name": "EXT:mailjet",
+            "path": "."
+        }
+    ],
+    "settings": {
+        
+        // PHPmd
+        "phpmd.rules": ".phpmd.xml",
+    
+        // Intelephense
+        "intelephense.files.exclude": [
+            "**/.git/**",
+            "**/.svn/**",
+            "**/.hg/**",
+            "**/CVS/**",
+            "**/.DS_Store/**",
+            "**/node_modules/**",
+            "**/bower_components/**",
+            "**/vendor/**/{Tests,tests}/**",
+            "**/.history/**",
+            "**/vendor/**/vendor/**",
+            ".Build/**"
+        ],
+
+         // Run on save
+        "emeraldwalk.runonsave": {
+            "commands": [
+                // Run "php-cs-fixer" when php is saved
+                {
+                    "match": "\\.php$",
+                    "cmd": ".Build/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php ${file}"
+                }
+            ]
+        },
+
+        // PSALM
+        "psalm.configPaths": ["psalm.xml"],
+        "psalm.psalmScriptPath": ".Build/bin/psalm-language-server",
+
+        // Todo tree
+        "todo-tree.highlights.customHighlight": {
+            "TODO": {
+                "foreground": "#333333",
+                "background": "#a02eaf",
+                "type": "whole-line",
+                "icon": "beaker",
+                "iconColor": "orange"
+            }
+        }
+	}
+}
