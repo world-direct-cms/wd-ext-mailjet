@@ -1,8 +1,11 @@
-# cat=features/enable/1; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpUsername.description
+# cat=features/enable/0; type=boolean; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.enabled.description
+enabled = 1
+
+# cat=features/enable/1; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpServer.description
+smtpServer =
+
+# cat=features/enable/2; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpUsername.description
 smtpUsername =
 
-# cat=features/enable/2; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpPassword.description
+# cat=features/enable/3; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpPassword.description
 smtpPassword =
-
-# cat=features/enable/3; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpServer.description
-smtpServer =

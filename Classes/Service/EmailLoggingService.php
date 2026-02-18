@@ -180,6 +180,11 @@ class EmailLoggingService implements SingletonInterface
         try {
             $extConf = $this->extensionConfiguration->get('mailjet');
 
+            // Check if Mailjet is enabled via master switch
+            if (empty($extConf['enabled'])) {
+                return false;
+            }
+
             // Check if all required Mailjet settings are configured
             return !empty($extConf['smtpServer'])
                 && !empty($extConf['smtpUsername'])

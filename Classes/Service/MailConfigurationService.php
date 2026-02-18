@@ -24,6 +24,11 @@ class MailConfigurationService implements SingletonInterface
         try {
             $extConf = $this->extensionConfiguration->get('mailjet');
 
+            // Check if Mailjet is enabled
+            if (empty($extConf['enabled'])) {
+                return;
+            }
+
             // Only configure if SMTP server is set
             if (empty($extConf['smtpServer'])) {
                 return;

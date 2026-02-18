@@ -4,6 +4,11 @@
 		<header />
 		<body>
 			<!-- Extension configuration -->
+			<trans-unit id="extConf.enabled.description">
+				<source>
+					Enable Mailjet: Master switch to enable/disable Mailjet email sending. When disabled, emails will use the default TYPO3 mail configuration.
+				</source>
+			</trans-unit>
 			<trans-unit id="extConf.smtpUsername.description">
 				<source>
 					SMTP Username: The username for authenticating with the Mailjet SMTP server (API key from Mailjet)
