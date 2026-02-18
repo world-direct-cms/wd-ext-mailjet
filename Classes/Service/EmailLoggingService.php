@@ -73,12 +73,18 @@ class EmailLoggingService implements SingletonInterface
             // Try direct getFrom method (works with Email objects)
             if (method_exists($message, 'getFrom')) {
                 $from = $message->getFrom();
-                if (!empty($from) && is_array($from)) {
-                    // Get the first sender address
-                    $addresses = array_keys($from);
-                    if (!empty($addresses[0])) {
-                        // Truncate to 255 characters to fit database field
-                        return mb_substr((string)$addresses[0], 0, 255);
+                if (!empty($from)) {
+                    // Handle Address objects (Symfony\Component\Mime\Address)
+                    if (is_array($from)) {
+                        $firstAddress = reset($from);
+                        if (is_object($firstAddress) && method_exists($firstAddress, 'getAddress')) {
+                            return mb_substr($firstAddress->getAddress(), 0, 255);
+                        }
+                        // Fallback: try array keys for backwards compatibility
+                        $addresses = array_keys($from);
+                        if (!empty($addresses[0])) {
+                            return mb_substr((string)$addresses[0], 0, 255);
+                        }
                     }
                 }
             }
@@ -88,10 +94,16 @@ class EmailLoggingService implements SingletonInterface
                 $originalMessage = $message->getOriginalMessage();
                 if ($originalMessage !== null && method_exists($originalMessage, 'getFrom')) {
                     $from = $originalMessage->getFrom();
-                    if (!empty($from) && is_array($from)) {
-                        $addresses = array_keys($from);
-                        if (!empty($addresses[0])) {
-                            return mb_substr((string)$addresses[0], 0, 255);
+                    if (!empty($from)) {
+                        if (is_array($from)) {
+                            $firstAddress = reset($from);
+                            if (is_object($firstAddress) && method_exists($firstAddress, 'getAddress')) {
+                                return mb_substr($firstAddress->getAddress(), 0, 255);
+                            }
+                            $addresses = array_keys($from);
+                            if (!empty($addresses[0])) {
+                                return mb_substr((string)$addresses[0], 0, 255);
+                            }
                         }
                     }
                 }
@@ -102,10 +114,16 @@ class EmailLoggingService implements SingletonInterface
                 $innerMessage = $message->getMessage();
                 if ($innerMessage !== null && method_exists($innerMessage, 'getFrom')) {
                     $from = $innerMessage->getFrom();
-                    if (!empty($from) && is_array($from)) {
-                        $addresses = array_keys($from);
-                        if (!empty($addresses[0])) {
-                            return mb_substr((string)$addresses[0], 0, 255);
+                    if (!empty($from)) {
+                        if (is_array($from)) {
+                            $firstAddress = reset($from);
+                            if (is_object($firstAddress) && method_exists($firstAddress, 'getAddress')) {
+                                return mb_substr($firstAddress->getAddress(), 0, 255);
+                            }
+                            $addresses = array_keys($from);
+                            if (!empty($addresses[0])) {
+                                return mb_substr((string)$addresses[0], 0, 255);
+                            }
                         }
                     }
                 }
