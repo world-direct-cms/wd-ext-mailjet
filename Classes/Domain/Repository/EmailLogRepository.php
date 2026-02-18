@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace WorldDirect\Mailjet\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use WorldDirect\Mailjet\Domain\Model\SentEmail;
+use WorldDirect\Mailjet\Domain\Model\EmailLog;
 
 /**
- * Repository for SentEmail records
+ * Repository for EmailLog records
  */
-class SentEmailRepository extends Repository
+class EmailLogRepository extends Repository
 {
     public function initializeObject(): void
     {
@@ -21,7 +21,7 @@ class SentEmailRepository extends Repository
     }
 
     /**
-     * Create a new sent email record
+     * Create a new email log record
      * @deprecated Use createEmailAttemptRecord instead
      */
     public function createSentEmailRecord(
@@ -42,15 +42,15 @@ class SentEmailRepository extends Repository
         ?string $exceptionMessage = null,
         string $senderAddress = ''
     ): void {
-        $sentEmail = new SentEmail();
-        $sentEmail->setPid(0); // Store at root level
-        $sentEmail->setSentAt(time());
-        $sentEmail->setMailjetEnabled($mailjetEnabled);
-        $sentEmail->setSenderAddress($senderAddress);
-        $sentEmail->setSubject($subject);
-        $sentEmail->setDeliveryStatus($deliveryStatus);
-        $sentEmail->setExceptionMessage($exceptionMessage);
+        $emailLog = new EmailLog();
+        $emailLog->setPid(0); // Store at root level
+        $emailLog->setSentAt(time());
+        $emailLog->setMailjetEnabled($mailjetEnabled);
+        $emailLog->setSenderAddress($senderAddress);
+        $emailLog->setSubject($subject);
+        $emailLog->setDeliveryStatus($deliveryStatus);
+        $emailLog->setExceptionMessage($exceptionMessage);
 
-        $this->add($sentEmail);
+        $this->add($emailLog);
     }
 }

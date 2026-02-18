@@ -146,12 +146,12 @@ class EmailLoggingService implements SingletonInterface
         ?string $exceptionMessage = null
     ): void {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_mailjet_domain_model_sentemail');
+            ->getConnectionForTable('tx_mailjet_domain_model_emaillog');
 
         $timestamp = time();
 
         $connection->insert(
-            'tx_mailjet_domain_model_sentemail',
+            'tx_mailjet_domain_model_emaillog',
             [
                 'pid' => 0,
                 'tstamp' => $timestamp,

@@ -7,9 +7,9 @@ namespace WorldDirect\Mailjet\Domain\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
- * Model for tracking sent emails
+ * Model for tracking email logs
  */
-class SentEmail extends AbstractEntity
+class EmailLog extends AbstractEntity
 {
     protected int $sentAt = 0;
     protected bool $mailjetEnabled = false;

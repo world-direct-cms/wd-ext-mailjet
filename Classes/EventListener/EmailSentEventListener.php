@@ -7,7 +7,7 @@ namespace WorldDirect\Mailjet\EventListener;
 use TYPO3\CMS\Core\Mail\Event\AfterMailerSentMessageEvent;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use WorldDirect\Mailjet\Domain\Repository\SentEmailRepository;
+use WorldDirect\Mailjet\Domain\Repository\EmailLogRepository;
 use WorldDirect\Mailjet\Service\EmailLoggingService;
 
 /**
@@ -17,7 +17,7 @@ use WorldDirect\Mailjet\Service\EmailLoggingService;
 final class EmailSentEventListener
 {
     public function __construct(
-        private readonly SentEmailRepository $sentEmailRepository,
+        private readonly EmailLogRepository $emailLogRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly EmailLoggingService $emailLoggingService,
     ) {}
@@ -57,7 +57,7 @@ final class EmailSentEventListener
 
             // Try Extbase persistence first
             try {
-                $this->sentEmailRepository->createEmailAttemptRecord($mailjetEnabled, $subject, 'sent', null, $senderAddress);
+                $this->emailLogRepository->createEmailAttemptRecord($mailjetEnabled, $subject, 'sent', null, $senderAddress);
                 $this->persistenceManager->persistAll();
             } catch (\Exception $extbaseException) {
                 // Fallback to direct database insert if Extbase fails

@@ -2,7 +2,7 @@
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail',
+        'title' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog',
         'label' => 'sent_at',
         'label_alt' => 'subject',
         'tstamp' => 'tstamp',
@@ -10,7 +10,7 @@ return [
         'delete' => 'deleted',
         'rootLevel' => 1,
         'searchFields' => 'sender_address,subject,delivery_status,exception_message',
-        'iconfile' => 'EXT:mailjet/Resources/Public/Icons/SentEmail.svg',
+        'iconfile' => 'EXT:mailjet/Resources/Public/Icons/EmailLog.svg',
         'hideTable' => false,
         'adminOnly' => true,
         'default_sortby' => 'sent_at DESC',
@@ -21,7 +21,7 @@ return [
     'columns' => [
         'sent_at' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.sent_at',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.sent_at',
             'config' => [
                 'type' => 'datetime',
                 'format' => 'datetime',
@@ -30,7 +30,7 @@ return [
         ],
         'mailjet_enabled' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.mailjet_enabled',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.mailjet_enabled',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
@@ -45,7 +45,7 @@ return [
         ],
         'sender_address' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.sender_address',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.sender_address',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
@@ -55,7 +55,7 @@ return [
         ],
         'subject' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.subject',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.subject',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
@@ -65,21 +65,21 @@ return [
         ],
         'delivery_status' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.delivery_status',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'readOnly' => true,
                 'items' => [
-                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status.sent', 'value' => 'sent'],
-                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status.failed', 'value' => 'failed'],
-                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status.pending', 'value' => 'pending'],
+                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.delivery_status.sent', 'value' => 'sent'],
+                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.delivery_status.failed', 'value' => 'failed'],
+                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.delivery_status.pending', 'value' => 'pending'],
                 ],
             ],
         ],
         'exception_message' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.exception_message',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_emaillog.exception_message',
             'config' => [
                 'type' => 'text',
                 'rows' => 5,

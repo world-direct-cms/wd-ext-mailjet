@@ -9,8 +9,8 @@ return [
         'provider' => SvgIconProvider::class,
         'source' => 'EXT:mailjet/Resources/Public/Icons/Extension.svg',
     ],
-    'mailjet-sentemail' => [
+    'mailjet-emaillog' => [
         'provider' => SvgIconProvider::class,
-        'source' => 'EXT:mailjet/Resources/Public/Icons/SentEmail.svg',
+        'source' => 'EXT:mailjet/Resources/Public/Icons/EmailLog.svg',
     ],
 ];

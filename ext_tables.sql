@@ -1,7 +1,7 @@
 #
-# Table which holds all the sent emails
+# Table which holds all email logs
 #
-CREATE TABLE tx_mailjet_domain_model_sentemail (
+CREATE TABLE tx_mailjet_domain_model_emaillog (
     uid int(11) NOT NULL auto_increment,
     pid int(11) DEFAULT 0 NOT NULL,
     

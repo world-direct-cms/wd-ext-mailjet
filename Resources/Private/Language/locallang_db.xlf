@@ -19,53 +19,53 @@
 					SMTP Server: The Mailjet SMTP server address (e.g., in-v3.mailjet.com:465)
 				</source>
 			</trans-unit>
-			<!-- Database table: tx_mailjet_domain_model_sentemail -->
-			<trans-unit id="tx_mailjet_domain_model_sentemail">
+			<!-- Database table: tx_mailjet_domain_model_emaillog -->
+			<trans-unit id="tx_mailjet_domain_model_emaillog">
 				<source>
-					Sent Email Log
+					Email Log
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.sent_at">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.sent_at">
 				<source>
 					Sent at
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.mailjet_enabled">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.mailjet_enabled">
 				<source>
 					Mailjet Enabled
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.sender_address">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.sender_address">
 				<source>
 					Sender Address
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.subject">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.subject">
 				<source>
 					Subject
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.delivery_status">
 				<source>
 					Delivery Status
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status.sent">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.delivery_status.sent">
 				<source>
 					Sent
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status.failed">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.delivery_status.failed">
 				<source>
 					Failed
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status.pending">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.delivery_status.pending">
 				<source>
 					Pending
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.exception_message">
+			<trans-unit id="tx_mailjet_domain_model_emaillog.exception_message">
 				<source>
 					Exception / Error Message
 				</source>
