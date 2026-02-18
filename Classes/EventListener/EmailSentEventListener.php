@@ -37,11 +37,14 @@ final class EmailSentEventListener
                 // Extract sender address from the email
                 $senderAddress = $this->emailLoggingService->extractSenderAddress($sentMessage);
 
+                // Extract recipient addresses from the email
+                $recipients = $this->emailLoggingService->extractRecipients($sentMessage);
+
                 // Store email information in database with "sent" status
                 $this->logSentEmail($subject, $senderAddress);
 
                 // Mark the attempt as successful (remove from pending list)
-                EmailAttemptEventListener::markAttemptSuccessful($subject);
+                EmailAttemptEventListener::markAttemptSuccessful($subject, $senderAddress, $recipients);
             }
         }
     }

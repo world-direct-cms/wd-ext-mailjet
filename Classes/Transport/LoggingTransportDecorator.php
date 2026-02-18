@@ -20,11 +20,6 @@ final class LoggingTransportDecorator implements TransportInterface
      */
     private static ?\Throwable $lastException = null;
 
-    /**
-     * Storage for the message that failed to send
-     */
-    private static ?RawMessage $failedMessage = null;
-
     public function __construct(
         private readonly TransportInterface $innerTransport
     ) {}
@@ -33,14 +28,12 @@ final class LoggingTransportDecorator implements TransportInterface
     {
         // Clear previous exception
         self::$lastException = null;
-        self::$failedMessage = null;
 
         try {
             return $this->innerTransport->send($message, $envelope);
         } catch (\Throwable $e) {
-            // Store the exception and message for logging
+            // Store the exception for logging
             self::$lastException = $e;
-            self::$failedMessage = $message;
 
             // Re-throw so normal error handling continues
             throw $e;
@@ -61,19 +54,10 @@ final class LoggingTransportDecorator implements TransportInterface
     }
 
     /**
-     * Get the message that failed to send
-     */
-    public static function getFailedMessage(): ?RawMessage
-    {
-        return self::$failedMessage;
-    }
-
-    /**
-     * Clear stored exception and message
+     * Clear stored exception
      */
     public static function clear(): void
     {
         self::$lastException = null;
-        self::$failedMessage = null;
     }
 }

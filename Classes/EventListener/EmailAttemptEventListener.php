@@ -60,6 +60,9 @@ final class EmailAttemptEventListener
                 // Extract sender address from the email
                 $senderAddress = $this->emailLoggingService->extractSenderAddress($message);
 
+                // Extract recipient addresses from the email
+                $recipients = $this->emailLoggingService->extractRecipients($message);
+
                 // Generate a unique identifier for this attempt
                 $attemptId = $this->generateAttemptId($message, $subject);
 
@@ -67,6 +70,7 @@ final class EmailAttemptEventListener
                 self::$pendingAttempts[$attemptId] = [
                     'subject' => $subject,
                     'sender_address' => $senderAddress,
+                    'recipients' => $recipients,
                     'timestamp' => time(),
                     'mailjet_enabled' => $this->emailLoggingService->isMailjetEnabled(),
                 ];
@@ -222,15 +226,18 @@ final class EmailAttemptEventListener
 
     /**
      * Mark an attempt as successful (called by EmailSentEventListener)
+     * Uses subject, sender address, and recipients for reliable matching
      */
-    public static function markAttemptSuccessful(string $subject): void
+    public static function markAttemptSuccessful(string $subject, string $senderAddress = '', string $recipients = ''): void
     {
         // Find and remove matching attempts from pending list
         foreach (self::$pendingAttempts as $attemptId => $attempt) {
-            if (
-                $attempt['subject'] === $subject &&
-                abs($attempt['timestamp'] - time()) <= 5
-            ) { // Match within 5 seconds
+            $subjectMatches = $attempt['subject'] === $subject;
+            $senderMatches = empty($senderAddress) || $attempt['sender_address'] === $senderAddress;
+            $recipientsMatch = empty($recipients) || $attempt['recipients'] === $recipients;
+            $timeMatches = abs($attempt['timestamp'] - time()) <= 5; // Match within 5 seconds
+
+            if ($subjectMatches && $senderMatches && $recipientsMatch && $timeMatches) {
                 unset(self::$pendingAttempts[$attemptId]);
                 break;
             }
