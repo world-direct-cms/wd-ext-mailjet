@@ -6,14 +6,30 @@
 
 This TYPO3 extension configures the system to send emails through [Mailjet](https://www.mailjet.com/) SMTP service and provides comprehensive email tracking capabilities.
 
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [How It Works](#how-it-works)
+- [Email Logging](#email-logging)
+- [Database Schema](#database-schema)
+- [Usage Examples](#usage-examples)
+- [Troubleshooting](#troubleshooting)
+- [Support](#support)
+- [License](#license)
+- [Credits](#credits)
+
 ## Features
 
 - **Mailjet Integration**: Configure TYPO3 to use Mailjet's SMTP servers for email delivery
-- **Email Logging**: Automatically track all sent emails in a database table
-- **Privacy-Focused**: Logs only metadata (timestamp, subject, Mailjet status) - no recipient addresses or email content
-- **Backend Module**: View email statistics directly in the TYPO3 backend
-- **Event-Based**: Uses TYPO3's `AfterMailerSentMessageEvent` for reliable email tracking
-- **Flexible Architecture**: Works with any TYPO3 extension that uses the standard mail API
+- **Master Enable Switch**: Quickly enable/disable Mailjet without removing credentials
+- **Email Logging**: Automatically track all email attempts with delivery status (sent/failed)
+- **Error Tracking**: Captures exception messages when email delivery fails
+- **Privacy-Focused**: Logs only metadata (timestamp, subject, sender, status) - no recipient addresses or email content
+- **Event-Based Architecture**: Uses TYPO3's mail events for reliable email tracking
+- **Flexible**: Works with any TYPO3 extension that uses the standard mail API
 
 ## Requirements
 
@@ -29,12 +45,6 @@ This TYPO3 extension configures the system to send emails through [Mailjet](http
 composer require worlddirect/mailjet
 ```
 
-### Manual Installation
-
-1. Download the extension from the TYPO3 Extension Repository (TER)
-2. Upload to `typo3conf/ext/mailjet/`
-3. Activate the extension in the Extension Manager
-
 ## Configuration
 
 ### 1. Mailjet API Credentials
@@ -46,17 +56,16 @@ First, obtain your Mailjet API credentials:
 
 ### 2. Extension Configuration
 
-Configure the extension in the TYPO3 backend:
-
-**Admin Tools → Settings → Extension Configuration → mailjet**
+Configure the extension by using **"Environment Variables"** in the file `settings.php`. So no secret values are being inserted into the Git repository.
 
 Set the following values:
 
-| Setting           | Description                           | Example                 |
-| ----------------- | ------------------------------------- | ----------------------- |
-| **SMTP Server**   | Mailjet SMTP server address with port | `in-v3.mailjet.com:465` |
-| **SMTP Username** | Your Mailjet API Key                  | `a1b2c3d4e5f6g7h8i9j0`  |
-| **SMTP Password** | Your Mailjet Secret Key               | `x1y2z3a4b5c6d7e8f9g0`  |
+| Setting            | Description                                                | Example                 |
+| ------------------ | ---------------------------------------------------------- | ----------------------- |
+| **Enable Mailjet** | Master switch to enable/disable Mailjet (default: enabled) | 1                       |
+| **SMTP Server**    | Mailjet SMTP server address with port                      | `in-v3.mailjet.com:465` |
+| **SMTP Username**  | Your Mailjet API Key                                       | `a1b2c3d4e5f6g7h8i9j0`  |
+| **SMTP Password**  | Your Mailjet Secret Key                                    | `x1y2z3a4b5c6d7e8f9g0`  |
 
 **Note**: Use port `465` for SSL/TLS or port `587` for STARTTLS.
 
@@ -66,115 +75,163 @@ After installation, update the database schema:
 
 **Maintenance → Analyze Database Structure → Compare**
 
-This will create the `tx_mailjet_domain_model_sentemail` table for email logging.
+This will create the `tx_mailjet_domain_model_emaillog` table for email logging.
+
+## How It Works
+
+### Email Sending Workflow
+
+```
+1. TYPO3 prepares email
+         ↓
+2. BeforeMailerSentMessageEvent fires
+   → Extension extracts: subject, sender, recipients
+   → Stores attempt in memory
+         ↓
+3. Email transmission attempt
+         ↓
+    ┌────┴──────────────────────────────┐
+    ↓                                   ↓
+4a. SUCCESS                         4b. FAILURE
+    ↓                                   ↓
+5a. AfterMailerSentMessageEvent     5b. Exception caught
+    → Matches attempt by:             → Exception stored
+      - Subject                       ↓
+      - Sender                      6b. Shutdown handler
+      - Recipients                    → Logs failed attempt
+      - Timestamp (5s window)         → Status: "failed"
+    → Logs to database                → Includes exception message
+    → Status: "sent"
+```
+
+### Error Handling
+
+**When email sending fails:**
+- Exception is captured by the transport decorator
+- Failed attempt remains in pending list
+- Shutdown handler processes all pending attempts
+- Database entry created with:
+  - `delivery_status = 'failed'`
+  - `exception_message` contains error details
+
+**Common failure scenarios logged:**
+- SMTP connection errors
+- Authentication failures
+- Invalid recipient addresses
+- Server rejections
+- Network timeouts
 
 ## Email Logging
 
 ### What is Logged?
 
-The extension automatically logs every email sent through TYPO3 with the following information:
+The extension automatically logs every email attempt with:
 
-- **Timestamp**: When the email was sent
-- **Subject**: The email subject line
-- **Mailjet Status**: Whether Mailjet was configured and active at the time of sending
+- **Timestamp**: When the email was sent/attempted
+- **Subject**: The email subject line (max 998 chars)
+- **Sender Address**: The from address (max 255 chars)
+- **Delivery Status**: `sent` or `failed`
+- **Exception Message**: Error details (only for failed emails)
+- **Mailjet Status**: Whether Mailjet was enabled for this email
 
 ### What is NOT Logged?
 
 To ensure GDPR compliance and privacy:
 - ❌ Recipient email addresses
-- ❌ Sender email addresses
 - ❌ Email body content
 - ❌ Attachments
-- ❌ Any personally identifiable information (PII)
+- ❌ CC/BCC addresses
 
 ### Viewing Email Logs
 
 Access the email logs in the TYPO3 backend:
 
-**List → Root Level → Sent Email Log**
+**List → Root Level → Email Log**
 
 You can:
-- View all sent emails chronologically
-- Search by subject
+- View all email attempts chronologically
+- See delivery status (sent/failed)
+- Review error messages for failed deliveries
+- Search by subject or sender
 - Filter by Mailjet status
-- Export data for analysis
-
-## Database Schema
-
-The extension creates the following table:
-
-```sql
-CREATE TABLE tx_mailjet_domain_model_sentemail (
-    uid int(11) NOT NULL auto_increment,
-    pid int(11) DEFAULT 0 NOT NULL,
-    tstamp int(11) unsigned DEFAULT 0 NOT NULL,
-    crdate int(11) unsigned DEFAULT 0 NOT NULL,
-    deleted tinyint(4) unsigned DEFAULT 0 NOT NULL,
-    sent_at int(11) DEFAULT 0 NOT NULL,
-    mailjet_enabled tinyint(1) unsigned DEFAULT 0 NOT NULL,
-    subject varchar(998) DEFAULT '' NOT NULL,
-    
-    PRIMARY KEY (uid),
-    KEY parent (pid),
-    KEY subject (subject)
-);
-```
+- Identify delivery issues quickly
 
 ## Usage Examples
 
-### Tracking Form Submissions
+### Monitoring Email Delivery
 
-When users submit forms via the TYPO3 Form extension, the extension automatically logs:
+Track both successful and failed email attempts:
 - Form notification emails
-- Confirmation emails to users
-- Each logged with the email subject for easy identification
-
-### Monitoring System Emails
-
-Track system-generated emails:
-- Password reset emails
 - User registration confirmations
-- Backend email notifications
+- Password reset emails
 - Scheduler task notifications
+- Any TYPO3-generated email
 
 ### Email Statistics
 
-Use the subject field to categorize and analyze email activity:
+Analyze email activity and identify issues:
+
 ```sql
--- Count emails by subject
-SELECT subject, COUNT(*) as count 
-FROM tx_mailjet_domain_model_sentemail 
-GROUP BY subject 
-ORDER BY count DESC;
+-- Count emails by delivery status
+SELECT delivery_status, COUNT(*) as count 
+FROM tx_mailjet_domain_model_emaillog 
+GROUP BY delivery_status;
+
+-- Recent failed emails
+SELECT sent_at, subject, sender_address, exception_message
+FROM tx_mailjet_domain_model_emaillog
+WHERE delivery_status = 'failed'
+ORDER BY sent_at DESC
+LIMIT 10;
 
 -- Daily email volume
-SELECT FROM_UNIXTIME(sent_at, '%Y-%m-%d') as date, COUNT(*) as count
-FROM tx_mailjet_domain_model_sentemail
-GROUP BY date
+SELECT FROM_UNIXTIME(sent_at, '%Y-%m-%d') as date, 
+       delivery_status,
+       COUNT(*) as count
+FROM tx_mailjet_domain_model_emaillog
+GROUP BY date, delivery_status
 ORDER BY date DESC;
+
+-- Most common errors
+SELECT exception_message, COUNT(*) as count
+FROM tx_mailjet_domain_model_emaillog
+WHERE delivery_status = 'failed'
+GROUP BY exception_message
+ORDER BY count DESC;
 ```
 
 ## Troubleshooting
 
 ### Emails are not being sent
 
-1. Verify your Mailjet credentials in Extension Configuration
-2. Check that your Mailjet account is active and not suspended
-3. Review TYPO3 logs: **Admin Tools → Log**
-4. Test email sending from Install Tool: **Settings → Mail Test**
+1. Check if Mailjet is enabled in Extension Configuration
+2. Verify your Mailjet credentials are correct
+3. Check that your Mailjet account is active and not suspended
+4. Review email logs for failed attempts with error messages
+5. Test email sending: **Settings → Mail Test** (Install Tool)
+
+### Email logs show "failed" status
+
+1. Check the **Exception Message** field in the log entry
+2. Common issues:
+   - Authentication failures → verify credentials
+   - SMTP connection errors → check server/port settings
+   - Invalid sender address → verify default mail address in TYPO3
+3. Review TYPO3 system logs: **Admin Tools → Log**
+
+### Want to temporarily disable Mailjet?
+
+Uncheck **Enable Mailjet** in Extension Configuration. This:
+- Disables Mailjet without removing credentials
+- Falls back to TYPO3 default mail configuration
+- Email logs will show `mailjet_enabled = 0`
 
 ### Email logs are empty
 
 1. Ensure database schema is up to date: **Maintenance → Analyze Database Structure**
 2. Clear all caches: **Admin Tools → Flush Cache**
 3. Verify the extension is activated in Extension Manager
-
-### Subject is missing in logs
-
-The extension attempts to extract the subject from sent emails. If empty:
-- The email may not have a subject line
-- Try sending a test email with a subject
-- Check TYPO3 version compatibility
+4. Send a test email and check if logging works
 
 ## Support
 
