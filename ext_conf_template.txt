@@ -2,7 +2,7 @@
 enabled = 1
 
 # cat=features/enable/1; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpServer.description
-smtpServer =
+smtpServer = in-v3.mailjet.com:465
 
 # cat=features/enable/2; type=string; label=LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:extConf.smtpUsername.description
 smtpUsername =
