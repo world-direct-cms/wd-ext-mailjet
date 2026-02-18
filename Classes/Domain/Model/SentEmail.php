@@ -14,6 +14,8 @@ class SentEmail extends AbstractEntity
     protected int $sentAt = 0;
     protected bool $mailjetEnabled = false;
     protected string $subject = '';
+    protected string $deliveryStatus = '';
+    protected ?string $exceptionMessage = null;
 
     public function getSentAt(): int
     {
@@ -43,5 +45,25 @@ class SentEmail extends AbstractEntity
     public function setSubject(string $subject): void
     {
         $this->subject = $subject;
+    }
+
+    public function getDeliveryStatus(): string
+    {
+        return $this->deliveryStatus;
+    }
+
+    public function setDeliveryStatus(string $deliveryStatus): void
+    {
+        $this->deliveryStatus = $deliveryStatus;
+    }
+
+    public function getExceptionMessage(): ?string
+    {
+        return $this->exceptionMessage;
+    }
+
+    public function setExceptionMessage(?string $exceptionMessage): void
+    {
+        $this->exceptionMessage = $exceptionMessage;
     }
 }

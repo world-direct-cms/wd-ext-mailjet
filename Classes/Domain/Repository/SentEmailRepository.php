@@ -19,16 +19,35 @@ class SentEmailRepository extends Repository
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
     }
+
     /**
      * Create a new sent email record
+     * @deprecated Use createEmailAttemptRecord instead
      */
-    public function createSentEmailRecord(bool $mailjetEnabled, string $subject = ''): void
-    {
+    public function createSentEmailRecord(
+        bool $mailjetEnabled,
+        string $subject = '',
+        string $deliveryStatus = 'sent'
+    ): void {
+        $this->createEmailAttemptRecord($mailjetEnabled, $subject, $deliveryStatus, null);
+    }
+
+    /**
+     * Create a new email attempt record with full details
+     */
+    public function createEmailAttemptRecord(
+        bool $mailjetEnabled,
+        string $subject = '',
+        string $deliveryStatus = 'sent',
+        ?string $exceptionMessage = null
+    ): void {
         $sentEmail = new SentEmail();
         $sentEmail->setPid(0); // Store at root level
         $sentEmail->setSentAt(time());
         $sentEmail->setMailjetEnabled($mailjetEnabled);
         $sentEmail->setSubject($subject);
+        $sentEmail->setDeliveryStatus($deliveryStatus);
+        $sentEmail->setExceptionMessage($exceptionMessage);
 
         $this->add($sentEmail);
     }

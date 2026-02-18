@@ -40,6 +40,31 @@
 					Subject
 				</source>
 			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status">
+				<source>
+					Delivery Status
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status.sent">
+				<source>
+					Sent
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status.failed">
+				<source>
+					Failed
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.delivery_status.pending">
+				<source>
+					Pending
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mailjet_domain_model_sentemail.exception_message">
+				<source>
+					Exception / Error Message
+				</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

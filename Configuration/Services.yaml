@@ -12,6 +12,12 @@ services:
     public: true
 
   # Event Listeners
+  WorldDirect\Mailjet\EventListener\EmailAttemptEventListener:
+    tags:
+      - name: event.listener
+        identifier: "mailjet/email-attempt"
+        event: TYPO3\CMS\Core\Mail\Event\BeforeMailerSentMessageEvent
+
   WorldDirect\Mailjet\EventListener\EmailSentEventListener:
     tags:
       - name: event.listener

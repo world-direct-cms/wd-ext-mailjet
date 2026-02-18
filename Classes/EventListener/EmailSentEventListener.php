@@ -36,8 +36,11 @@ final class EmailSentEventListener
                 // Extract subject from the email
                 $subject = $this->extractSubject($sentMessage);
 
-                // Store email information in database
+                // Store email information in database with "sent" status
                 $this->logSentEmail($subject);
+
+                // Mark the attempt as successful (remove from pending list)
+                EmailAttemptEventListener::markAttemptSuccessful($subject);
             }
         }
     }
@@ -53,13 +56,13 @@ final class EmailSentEventListener
 
             // Try Extbase persistence first
             try {
-                $this->sentEmailRepository->createSentEmailRecord($mailjetEnabled, $subject);
+                $this->sentEmailRepository->createSentEmailRecord($mailjetEnabled, $subject, 'sent');
                 $this->persistenceManager->persistAll();
             } catch (\Exception $extbaseException) {
                 // Fallback to direct database insert if Extbase fails
                 // This can happen when emails are sent from Install Tool or other contexts
                 // where Extbase persistence is not available
-                $this->logEmailDirectly($mailjetEnabled, $subject);
+                $this->logEmailDirectly($mailjetEnabled, $subject, 'sent');
             }
         } catch (\Exception $e) {
             // Silently fail to avoid breaking email sending
@@ -69,15 +72,15 @@ final class EmailSentEventListener
     /**
      * Direct database insert as fallback when Extbase persistence is unavailable
      */
-    private function logEmailDirectly(bool $mailjetEnabled, string $subject): void
+    private function logEmailDirectly(bool $mailjetEnabled, string $subject, string $deliveryStatus): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_mailjet_domain_model_sent_email');
+            ->getConnectionForTable('tx_mailjet_domain_model_sentemail');
 
         $timestamp = time();
 
         $connection->insert(
-            'tx_mailjet_domain_model_sent_email',
+            'tx_mailjet_domain_model_sentemail',
             [
                 'pid' => 0,
                 'tstamp' => $timestamp,
@@ -85,6 +88,7 @@ final class EmailSentEventListener
                 'sent_at' => $timestamp,
                 'mailjet_enabled' => $mailjetEnabled ? 1 : 0,
                 'subject' => $subject,
+                'delivery_status' => $deliveryStatus,
             ]
         );
     }

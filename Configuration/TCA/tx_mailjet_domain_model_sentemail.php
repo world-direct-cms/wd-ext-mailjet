@@ -9,14 +9,14 @@ return [
         'crdate' => 'crdate',
         'delete' => 'deleted',
         'rootLevel' => 1,
-        'searchFields' => 'subject',
+        'searchFields' => 'subject,delivery_status,exception_message',
         'iconfile' => 'EXT:mailjet/Resources/Public/Icons/SentEmail.svg',
         'hideTable' => false,
         'adminOnly' => true,
         'default_sortby' => 'sent_at DESC',
     ],
     'types' => [
-        '1' => ['showitem' => 'sent_at, subject, mailjet_enabled'],
+        '1' => ['showitem' => 'sent_at, subject, mailjet_enabled, delivery_status, exception_message'],
     ],
     'columns' => [
         'sent_at' => [
@@ -50,6 +50,30 @@ return [
                 'type' => 'input',
                 'size' => 50,
                 'max' => 998,
+                'readOnly' => true,
+            ],
+        ],
+        'delivery_status' => [
+            'exclude' => false,
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'readOnly' => true,
+                'items' => [
+                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status.sent', 'value' => 'sent'],
+                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status.failed', 'value' => 'failed'],
+                    ['label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.delivery_status.pending', 'value' => 'pending'],
+                ],
+            ],
+        ],
+        'exception_message' => [
+            'exclude' => false,
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.exception_message',
+            'config' => [
+                'type' => 'text',
+                'rows' => 5,
+                'cols' => 50,
                 'readOnly' => true,
             ],
         ],
