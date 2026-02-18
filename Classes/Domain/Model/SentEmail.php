@@ -13,7 +13,7 @@ class SentEmail extends AbstractEntity
 {
     protected int $sentAt = 0;
     protected bool $mailjetEnabled = false;
-    protected string $callingClass = '';
+    protected string $subject = '';
 
     public function getSentAt(): int
     {
@@ -35,13 +35,13 @@ class SentEmail extends AbstractEntity
         $this->mailjetEnabled = $mailjetEnabled;
     }
 
-    public function getCallingClass(): string
+    public function getSubject(): string
     {
-        return $this->callingClass;
+        return $this->subject;
     }
 
-    public function setCallingClass(string $callingClass): void
+    public function setSubject(string $subject): void
     {
-        $this->callingClass = $callingClass;
+        $this->subject = $subject;
     }
 }

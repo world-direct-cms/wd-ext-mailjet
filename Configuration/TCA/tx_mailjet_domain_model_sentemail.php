@@ -4,19 +4,19 @@ return [
     'ctrl' => [
         'title' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail',
         'label' => 'sent_at',
-        'label_alt' => 'calling_class',
+        'label_alt' => 'subject',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'delete' => 'deleted',
         'rootLevel' => 1,
-        'searchFields' => 'calling_class',
+        'searchFields' => 'subject',
         'iconfile' => 'EXT:mailjet/Resources/Public/Icons/SentEmail.svg',
         'hideTable' => false,
         'adminOnly' => true,
         'default_sortby' => 'sent_at DESC',
     ],
     'types' => [
-        '1' => ['showitem' => 'sent_at, mailjet_enabled, calling_class'],
+        '1' => ['showitem' => 'sent_at, subject, mailjet_enabled'],
     ],
     'columns' => [
         'sent_at' => [
@@ -43,12 +43,13 @@ return [
                 ],
             ],
         ],
-        'calling_class' => [
+        'subject' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.calling_class',
+            'label' => 'LLL:EXT:mailjet/Resources/Private/Language/locallang_db.xlf:tx_mailjet_domain_model_sentemail.subject',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
+                'max' => 998,
                 'readOnly' => true,
             ],
         ],

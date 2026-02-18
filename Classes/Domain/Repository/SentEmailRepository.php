@@ -22,13 +22,13 @@ class SentEmailRepository extends Repository
     /**
      * Create a new sent email record
      */
-    public function createSentEmailRecord(bool $mailjetEnabled, string $callingClass): void
+    public function createSentEmailRecord(bool $mailjetEnabled, string $subject = ''): void
     {
         $sentEmail = new SentEmail();
         $sentEmail->setPid(0); // Store at root level
         $sentEmail->setSentAt(time());
         $sentEmail->setMailjetEnabled($mailjetEnabled);
-        $sentEmail->setCallingClass($callingClass);
+        $sentEmail->setSubject($subject);
 
         $this->add($sentEmail);
     }

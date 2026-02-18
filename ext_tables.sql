@@ -11,8 +11,9 @@ CREATE TABLE tx_mailjet_domain_model_sentemail (
     
     sent_at int(11) DEFAULT 0 NOT NULL,
     mailjet_enabled tinyint(1) unsigned DEFAULT 0 NOT NULL,
-    calling_class varchar(255) DEFAULT '' NOT NULL,
+    subject varchar(998) DEFAULT '' NOT NULL,
     
     PRIMARY KEY (uid),
-    KEY parent (pid)
+    KEY parent (pid),
+    KEY subject (subject)
 );

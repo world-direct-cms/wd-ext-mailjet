@@ -35,9 +35,9 @@
 					Mailjet Enabled
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mailjet_domain_model_sentemail.calling_class">
+			<trans-unit id="tx_mailjet_domain_model_sentemail.subject">
 				<source>
-					Calling Class
+					Subject
 				</source>
 			</trans-unit>
 		</body>
